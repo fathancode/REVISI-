@@ -1,0 +1,890 @@
+/* ================= TEMA PUTIH (#fffcfd) & BIRU (#5D8AA8) ================= */
+:root {
+    --bg-color: #fffcfd; 
+    --text-color: #4a4a4a; 
+    --primary-color: #5D8AA8; 
+    --secondary-color: #7a7a7a; 
+    --glass-bg: rgba(255, 255, 255, 0.22); 
+    --glass-border: rgba(255, 255, 255, 0.8); 
+    --overlay-color: rgba(255, 252, 253, 0.45); 
+    --nav-bg: rgba(255, 255, 255, 0.85); 
+    --nav-icon: #a0a0a0; 
+    --nav-active: #5D8AA8; 
+}
+
+body.dark-mode {
+    --bg-color: #1a1e24; 
+    --text-color: #e2e8f0; 
+    --primary-color: #8ba8bc; 
+    --secondary-color: #a0aec0; 
+    --glass-bg: rgba(26, 30, 36, 0.65); 
+    --glass-border: rgba(93, 138, 168, 0.2); 
+    --overlay-color: rgba(20, 24, 28, 0.7); 
+    --nav-bg: rgba(20, 24, 28, 0.95); 
+    --nav-icon: #64748b; 
+    --nav-active: #8ba8bc; 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+    overflow-x: hidden; transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--primary-color); }
+.cursive { font-family: 'Great Vibes', cursive; font-size: clamp(3rem, 12vw, 4.5rem); color: var(--primary-color); margin: 5px 0; text-shadow: 1px 1px 3px rgba(93, 138, 168, 0.2); }
+.subtitle-color { letter-spacing: 2px; text-transform: uppercase; font-size: clamp(0.8rem, 3vw, 1rem); color: var(--primary-color); }
+p { line-height: 1.6; font-weight: 300; }
+
+/* LAYOUT VERTIKAL RESPONSIF (Tanpa Manual Height Divs) */
+#main-content { display: none; width: 100vw; }
+.scroll-section { 
+    position: relative; 
+    width: 100vw; 
+    min-height: 100svh; 
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed;
+    background-color: var(--bg-color); /* Fallback warna agar tidak putih polos saat loading */
+    /* Mengoptimalkan rendering gambar agar tidak berat saat scroll */
+    image-rendering: -webkit-optimize-contrast;
+    content-visibility: auto; /* Membantu browser hanya merender seksi yang terlihat */
+    will-change: transform;
+}
+
+/* Optimasi Mobile: Mematikan background-attachment fixed karena berat di GPU HP */
+@media (max-width: 1024px) {
+    .scroll-section { background-attachment: scroll; }
+}
+
+/* ================= LOGIKA STACKING KHUSUS (HOME & MEMPELAI) ================= */
+.hero-stack {
+    position: relative;
+    width: 100%;
+}
+
+#home {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    height: 100svh;
+}
+
+#mempelai {
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 -30px 60px rgba(0,0,0,0.3);
+}
+
+/* Section selanjutnya (Tanggal, Ucapan, Hadiah) bersih dari gangguan Home */
+#tanggal, #ucapan, #hadiah {
+    position: relative; 
+    z-index: 3;
+    background-color: var(--bg-color);
+}
+
+.overlay, .overlay-cover {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--overlay-color); z-index: 1; pointer-events: none; transition: background-color 0.5s ease;
+}
+.overlay-cover { position: fixed; } 
+
+.content-wrapper { 
+    position: relative; z-index: 2; min-height: 100svh; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    padding: 40px 15px 90px 15px; 
+    text-align: center;
+}
+.scroll-pad { justify-content: flex-start; padding-top: 50px; }
+
+.bismillah-img { width: clamp(160px, 200vw, 300px); transition: filter 0.5s ease; }
+body:not(.dark-mode) .bismillah-img { filter: invert(0.3) sepia(1) hue-rotate(300deg) saturate(0.5); }
+body.dark-mode .bismillah-img { filter: invert(1); }
+
+/* ================= ORNAMEN JAWA BERGERAK ================= */
+.javanese-ornament {
+    position: absolute;
+    width: clamp(100px, 25vw, 180px); /* Ukuran fleksibel */
+    height: auto;
+    z-index: 1; /* Di atas background, di bawah konten */
+    opacity: 0; /* Awalnya transparan, diatur oleh animasi */
+    pointer-events: none; /* Tidak bisa diklik agar tidak mengganggu */
+    
+    /* Filter warna agar menyatu dengan tema */
+    filter: invert(0.3) sepia(1) hue-rotate(300deg) saturate(0.5) opacity(0.4);
+    transition: filter 0.5s ease;
+}
+
+body.dark-mode .javanese-ornament {
+    filter: invert(1) opacity(0.3);
+}
+
+.left-ornament {
+    top: 15%;
+    left: 5%;
+    /* Animasi: Muncul dulu, baru bergerak mengambang */
+    animation: fadeInOrnamentLeft 2.5s ease 1.5s forwards, 
+               float-ornament 12s ease-in-out 4s infinite;
+}
+
+.right-ornament {
+    bottom: 15%;
+    right: 5%;
+    /* Animasi dengan jeda berbeda dan gerakan yang sudah dibalik */
+    animation: fadeInOrnamentRight 2.5s ease 1.8s forwards, 
+               float-ornament-right 12s ease-in-out 4.5s infinite;
+}
+
+/* Animasi Muncul (Fade In & Zoom Out) */
+@keyframes fadeInOrnamentLeft {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeInOrnamentRight {
+    from { opacity: 0; transform: scaleX(-1) scale(0.8); }
+    to { opacity: 1; transform: scaleX(-1) scale(1); }
+}
+
+/* Animasi Gerakan Mengambang */
+@keyframes float-ornament {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+@keyframes float-ornament-right {
+    0%, 100% { transform: scaleX(-1) translateY(0px); }
+    50% { transform: scaleX(-1) translateY(-20px); }
+}
+
+#cover {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100svh; background-size: cover; background-position: center;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    z-index: 2000; transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+}
+/* TAMBAHAN: Spasi (padding) di bagian konten sampul awal */
+.cover-content { 
+    position: relative; z-index: 2; padding: 40px 20px; 
+    width: 100%; max-width: 600px; 
+}
+
+/* Gaya font untuk salam pembuka agar tidak kaku */
+.cover-greeting {
+    font-family: 'Poppins', sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+    color: var(--secondary-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color); color: white; border: none; padding: 12px 30px; font-size: 0.95rem; border-radius: 30px;
+    cursor: pointer; margin-top: 15px; font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
+}
+.btn-primary:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+.floating-btn {
+    position: fixed; z-index: 1001; background-color: var(--glass-bg); color: var(--primary-color); border: 1px solid var(--primary-color); border-radius: 50%; 
+    width: 40px; height: 40px; font-size: 1rem; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; top: 20px; right: 20px;
+}
+.floating-btn:hover { background-color: var(--primary-color); color: white; }
+
+.glass-box {
+    background: var(--glass-bg); padding: 25px 15px; border-radius: 15px;
+    border: 1px solid var(--glass-border); width: 100%; max-width: 450px; 
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); transition: background 0.5s ease;
+}
+
+/* ================= TAMBAHAN: KOTAK GLASS MEMPELAI & ANIMASI ================= */
+.mempelai-glass {
+    background: var(--glass-bg); padding: 25px 15px; border-radius: 15px;
+    border: 1px solid var(--glass-border); width: 100%; max-width: 400px; 
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); margin: 10px auto;
+    
+    /* Posisi awal sebelum animasi masuk */
+    opacity: 0; filter: blur(4px); transform: translateY(50px) scale(0.9);
+    transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
+}
+.mempelai-glass.visible { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+.mempelai-glass.exiting { opacity: 0; filter: blur(4px); transform: translateY(-30px) scale(0.95); }
+
+/* ============================================================================ */
+
+.event-wrapper { display: flex; justify-content: space-between; gap: 10px; width: 100%; max-width: 450px; margin-bottom: 10px; }
+.event-box { flex: 1; padding: 15px 10px; margin: 0; display: flex; flex-direction: column; justify-content: center; }
+
+.inviting-wrapper {
+    background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; padding: 30px 15px;
+    width: 100%; max-width: 550px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; 
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+}
+.inviting-col { flex: 1; text-align: center; }
+.inviting-col h4 { font-family: 'Playfair Display', serif; color: var(--primary-color); font-size: clamp(1.1rem, 4.5vw, 1.3rem); margin-bottom: 10px; }
+.inviting-col p { font-size: clamp(0.85rem, 3.5vw, 1rem); margin-bottom: 6px; color: var(--text-color); font-weight: 400; font-family: 'Montserrat', sans-serif; }
+.inviting-divider { width: 1px; height: 100px; background-color: var(--primary-color); opacity: 0.3; margin: 0 5px; }
+
+.countdown { display: flex; gap: 8px; justify-content: center;}
+.time-box { background: var(--glass-bg); border: 1px solid var(--primary-color); padding: 10px 8px; border-radius: 10px; min-width: 60px; text-align: center; backdrop-filter: blur(10px); }
+.time-box h3 { font-size: clamp(1.2rem, 5vw, 1.8rem); color: var(--primary-color); margin-bottom: 2px;}
+.time-box p { font-size: 0.65rem; color: var(--text-color); letter-spacing: 0.5px;}
+
+/* Memberikan jarak atas yang pas agar judul 'Buku Tamu' terlihat jelas saat navigasi diklik */
+#buku-tamu {
+    scroll-margin-top: 80px; 
+    display: block; /* Memastikan margin scroll terhitung dengan benar */
+}
+
+form { display: flex; flex-direction: column; width: 100%; gap: 10px; }
+input, textarea { width: 100%; padding: 12px; border: 1px solid rgba(93, 138, 168, 0.3); border-radius: 8px; background: rgba(255,255,255,0.4); color: var(--text-color); font-family: 'Poppins', sans-serif; font-size: 0.9rem; transition: all 0.3s ease; outline: none; }
+body.dark-mode input, body.dark-mode textarea { background: rgba(0,0,0,0.3); }
+input:focus, textarea:focus { border-color: var(--primary-color); background: rgba(255,255,255,0.8); }
+
+/* --- STYLING ATTENDANCE CHIPS (GLASS EFFECT) --- */
+.attendance-options {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin: 5px 0;
+}
+.attendance-btn {
+    flex: 1;
+    cursor: pointer;
+}
+.attendance-btn input {
+    display: none; /* Sembunyikan radio button asli */
+}
+.attendance-btn span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(5px);
+}
+.attendance-btn input:checked + span {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(93, 138, 168, 0.3);
+}
+
+/* Khusus tombol Berhalangan menjadi merah saat dipilih */
+.attendance-btn input[value="Tidak Hadir"]:checked + span {
+    background: #ef4444;
+    border-color: #ef4444;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+/* ---------------------------------------------- */
+
+body.dark-mode input:focus { background: rgba(0,0,0,0.6); }
+.wishes-container { width: 100%; max-width: 450px; max-height: 200px; overflow-y: auto; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; padding: 12px; text-align: left; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+.wishes-container::-webkit-scrollbar { width: 4px; }
+.wishes-container::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
+.wish-card { border-bottom: 1px solid rgba(93, 138, 168, 0.2); padding: 10px 5px; }
+.wish-card:last-child { border-bottom: none; }
+.wish-card h4 { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--primary-color); margin-bottom: 4px;}
+.wish-text { font-size: 0.8rem; color: var(--text-color); font-weight: 300; }
+.badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 12px; color: white; }
+.badge-color { background: var(--primary-color); }
+.badge-red { background: #ef4444; }
+
+.gift-card { background: var(--glass-bg); border: 1px solid var(--primary-color); padding: 25px; border-radius: 15px; width: 100%; max-width: 350px; text-align: center; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%;
+    background-color: var(--nav-bg); display: none; 
+    justify-content: space-between; align-items: center;
+    padding: 10px 5px 20px 5px; z-index: 1999; 
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
+    border-top: 1px solid var(--glass-border); 
+    border-radius: 20px 20px 0 0;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--nav-icon); transition: all 0.3s ease; flex: 1; text-align: center; }
+.nav-item i { font-size: 1.1rem; margin-bottom: 3px; transition: transform 0.3s ease;}
+.nav-item span { font-size: 0.6rem; font-weight: 600;} 
+.nav-item:hover, .nav-item.active { color: var(--nav-active); }
+.nav-item.active i { transform: scale(1.2) translateY(-2px); }
+.action-active { color: var(--primary-color) !important; }
+
+/* ================= SISTEM ANIMASI UNIFIKASI (OPTIMAL & SMOOTH EXIT) ================= */
+.morph-element, 
+.morph-mempelai,
+.slide-from-left,
+.slide-from-right,
+.slide-from-bottom {
+    /* Kondisi Dasar (State Keluar/Hidden) */
+    opacity: 0;
+    filter: blur(10px);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    
+    /* Transisi yang sama mulusnya saat masuk dan keluar */
+    transition: opacity 0.8s ease, 
+                transform 1s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.8s ease;
+
+    /* Posisi default saat "Keluar" */
+    transform: translate3d(0, 40px, 0) scale(0.96);
+}
+
+/* Arah spesifik saat elemen tidak terlihat (Exit State) */
+.slide-from-left:not(.visible) { transform: translate3d(-70px, 0, 0) scale(0.96); }
+.slide-from-right:not(.visible) { transform: translate3d(70px, 0, 0) scale(0.96); }
+.slide-from-bottom:not(.visible) { transform: translate3d(0, 60px, 0) scale(0.96); }
+h2.morph-element:not(.visible) { letter-spacing: 5px; transform: translate3d(0, 20px, 0) scale(0.98); }
+
+/* Kondisi Saat Terlihat (State Masuk/Visible) */
+.morph-element.visible, 
+.morph-mempelai.visible,
+.slide-from-left.visible, 
+.slide-from-right.visible, 
+.slide-from-bottom.visible {
+    opacity: 1;
+    filter: blur(0);
+    letter-spacing: normal;
+    transform: translate3d(0, 0, 0) scale(1) !important;
+    pointer-events: auto;
+}
+
+/* Hapus semua duplikasi transition-delay yang mengganggu exit animation */
+.morph-element { transition-delay: 0s; }
+
+/* Jeda hanya saat elemen MASUK (untuk efek staggered) */
+.morph-element.visible:nth-child(1) { transition-delay: 0.1s; }
+.morph-element.visible:nth-child(2) { transition-delay: 0.2s; }
+.morph-element.visible:nth-child(3) { transition-delay: 0.3s; }
+.cover-photo-container {
+    position: relative;
+    margin: 20px auto 30px auto;
+    width: clamp(200px, 55vw, 280px); /* Ukuran fleksibel menyesuaikan layar */
+    aspect-ratio: 3 / 4; /* Proporsi kotak memanjang ke bawah (Portrait) */
+}
+
+/* Latar Belakang Estetik (Bayangan Biru Bergeser) */
+.cover-photo-bg {
+    position: absolute;
+    top: 15px; /* Geser ke bawah */
+    right: -15px; /* Geser ke kanan */
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    opacity: 0.4;
+    border-radius: 30px; /* Bentuk kotak lengkung */
+    z-index: 1;
+    display: none;
+}
+
+/* Bingkai Kaca Utama */
+.cover-photo-glass {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px; /* Bentuk kotak lengkung */
+    background: rgba(255, 255, 255, 0.4); /* Mengurangi opacity agar lebih transparan */
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    padding: 12px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px; /* Lengkungan foto sedikit lebih kecil dari bingkai luar */
+}
+
+/* ================= OPTIMASI TAMPILAN HANDPHONE (RESPONSIVE) ================= */
+@media screen and (max-width: 576px) {
+    /* Merapikan jarak layar pada HP */
+    .content-wrapper { 
+        padding: 40px 15px 100px 15px; 
+    }
+    
+    /* Mengubah susunan acara menjadi atas-bawah di HP agar kotak tidak menyempit */
+    .event-wrapper { 
+        flex-direction: column; 
+        gap: 15px; 
+    }
+    
+    /* Mengubah susunan daftar keluarga menjadi atas-bawah */
+    .inviting-wrapper { 
+        flex-direction: column; 
+        gap: 15px; 
+        text-align: center;
+    }
+    
+    /* Mengubah garis pemisah keluarga menjadi horizontal di HP */
+    .inviting-divider { 
+        width: 60%; 
+        height: 1px; 
+        margin: 5px auto; 
+    }
+
+    /* Menyesuaikan ukuran kotak mempelai di layar HP */
+    .mempelai-glass {
+        padding: 20px 10px;
+    }
+    
+    /* Memperkecil sedikit hitung mundur agar tidak keluar layar */
+    .time-box {
+        min-width: 55px;
+        padding: 8px 5px;
+    }
+    .time-box h3 {
+        font-size: 1.2rem;
+    }
+}
+/* ================= TOAST NOTIFICATION (KACA ESTETIK) ================= */
+#toast-container {
+    position: fixed;
+    top: 30px; /* Jarak dari atas layar */
+    left: 50%;
+    transform: translateX(-50%); /* Menengahkan posisi */
+    z-index: 9999; /* Pastikan selalu paling atas */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Memastikan setiap toast di dalamnya berada di tengah */
+    gap: 10px;
+    pointer-events: none; /* Agar tidak memblokir klik pada elemen di belakangnya */
+}
+
+.toast-kaca {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    color: var(--primary-color);
+    padding: 12px 25px;
+    border-radius: 50px; /* Bentuk kapsul */
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Menengahkan teks dan ikon di dalam kapsul */
+    text-align: center;
+    gap: 8px;
+    
+    /* Konfigurasi Animasi: Muncul 0.4s, diam 2.2s, Menghilang 0.4s (Total 3s) */
+    animation: slideDownFadeIn 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards, 
+               fadeOutUp 0.4s cubic-bezier(0.77, 0, 0.175, 1) 2.6s forwards;
+}
+
+/* Keyframes Animasi Toast */
+@keyframes slideDownFadeIn {
+    0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeOutUp {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-20px) scale(0.95); }
+}
+/* Efek Kaca dengan Blur 15px (Lebih Deep) */
+
+/* ================= TOAST NOTIFICATION (KACA ESTETIK) ================= */
+@media screen and (max-width: 576px) {
+    .toast-kaca {
+        font-size: 0.75rem; 
+        padding: 10px 20px;
+        width: fit-content; /* Biarkan lebar mengikuti isi pesan */
+        max-width: 90vw; /* Namun jangan melebihi lebar layar */
+    }
+    #toast-container { 
+        width: 100%; 
+        left: 0; 
+        transform: none; 
+        align-items: center; 
+    }
+}
+
+.glass-box, .mempelai-glass, .gift-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* ================= OPTIMASI HP (MERAMPINGKAN MEMPELAI) ================= */
+@media screen and (max-width: 576px) {
+    /* Membuat kotak mempelai lebih pendek dan rapat */
+    .mempelai-glass {
+        padding: 12px 10px !important;
+        margin: 5px auto !important;
+        max-width: 80% !important;
+    }
+    .mempelai-glass .cursive {
+        font-size: 2rem !important; /* Nama diperkecil */
+        margin: 0 !important;
+    }
+    .mempelai-glass p {
+        font-size: 0.7rem !important;
+        line-height: 1.2;
+    }
+    /* Merapatkan jarak antar elemen di seksi mempelai */
+    #mempelai .content-wrapper {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    #mempelai .cursive:not(.mempelai-glass .cursive) {
+        font-size: 1.8rem !important; /* Simbol & diperkecil */
+        margin: 2px 0 !important;
+    }
+}
+/* ================= ANIMASI SAPUAN KUAS (BRUSH WRITE) ================= */
+.brush-date {
+    display: inline-block;
+    position: relative;
+    /* Membuat masker transparan yang akan bergeser */
+    -webkit-mask-image: linear-gradient(to right, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,1) 40%, 
+        rgba(0,0,0,0) 60%, 
+        rgba(0,0,0,0) 100%
+    );
+    mask-image: linear-gradient(to right, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,1) 40%, 
+        rgba(0,0,0,0) 60%, 
+        rgba(0,0,0,0) 100%
+    );
+    -webkit-mask-size: 300% 100%;
+    mask-size: 300% 100%;
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    
+    /* Durasi 3 detik agar terlihat 'deep' dan tenang saat menulis */
+    transition: -webkit-mask-position 3s cubic-bezier(0.45, 0.05, 0.55, 0.95),
+                mask-position 3s cubic-bezier(0.45, 0.05, 0.55, 0.95),
+                filter 2s ease;
+    
+    filter: blur(2px); /* Sedikit blur saat mulai muncul */
+}
+
+/* Saat elemen terlihat di layar (dipicu oleh IntersectionObserver di JS) */
+.brush-date.visible {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+    filter: blur(0); /* Menjadi tajam saat tulisan selesai */
+}
+
+/* Penyesuaian jarak agar tidak terlalu rapat dengan teks di atasnya */
+.brush-date {
+    margin-top: 10px !important;
+    letter-spacing: 1px;
+}
+
+/* ================= ANIMASI SAPUAN KUAS DARI KANAN (RIGHT TO LEFT) ================= */
+.brush-right-to-left {
+    display: inline-block;
+    position: relative;
+    /* Gradient dibalik: Hitam di kanan, Transparan di kiri */
+    -webkit-mask-image: linear-gradient(to left, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,1) 40%, 
+        rgba(0,0,0,0) 60%, 
+        rgba(0,0,0,0) 100%
+    );
+    mask-image: linear-gradient(to left, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,1) 40%, 
+        rgba(0,0,0,0) 60%, 
+        rgba(0,0,0,0) 100%
+    );
+    -webkit-mask-size: 300% 100%;
+    mask-size: 300% 100%;
+    -webkit-mask-position: 0% 0; /* Mulai dari posisi transparan (kiri) */
+    mask-position: 0% 0;
+    
+    transition: -webkit-mask-position 3s cubic-bezier(0.45, 0.05, 0.55, 0.95),
+                mask-position 3s cubic-bezier(0.45, 0.05, 0.55, 0.95),
+                filter 2s ease;
+    
+    filter: blur(2px);
+}
+
+.brush-right-to-left.visible {
+    -webkit-mask-position: 100% 0; /* Bergeser ke kanan untuk menampilkan bagian hitam */
+    mask-position: 100% 0;
+    filter: blur(0);
+}
+
+/* ================= ANIMASI AYAT QURAN (REVEAL) ================= */
+.quran-verse-anim {
+    position: relative;
+    /* Membuat masker transparan yang akan bergeser */
+    -webkit-mask-image: linear-gradient(to right, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,1) 40%, 
+        rgba(0,0,0,0) 60%, 
+        rgba(0,0,0,0) 100%
+    );
+    mask-image: linear-gradient(to right, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,1) 40%, 
+        rgba(0,0,0,0) 60%, 
+        rgba(0,0,0,0) 100%
+    );
+    -webkit-mask-size: 250% 100%;
+    mask-size: 250% 100%;
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    
+    transition: -webkit-mask-position 2s cubic-bezier(0.45, 0.05, 0.55, 0.95),
+                mask-position 2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+.quran-verse-anim.visible {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+}
+
+/* 5. TOMBOL (Button) - (Efek Memantul Elegan) */
+button.morph-element {
+    transform: scale(0.5);
+    transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease;
+}
+button.morph-element.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* 6. PENGATURAN JEDA WAKTU (Staggered Animation)
+   PERBAIKAN: Jeda (delay) hanya aktif saat elemen MASUK layar (.visible).
+   Saat keluar layar, delay = 0s agar animasi smooth, tidak bug/crash/bertabrakan, 
+   terutama pada elemen kompleks seperti Turut Mengundang. */
+h2.morph-element,
+h3.morph-element,
+.glass-box.morph-element, 
+.mempelai-glass.morph-mempelai,
+.inviting-wrapper.morph-element,
+p.morph-element,
+button.morph-element { transition-delay: 0s; }
+
+h2.morph-element.visible { transition-delay: 0.1s; }
+h3.morph-element.visible { transition-delay: 0.2s; }
+.glass-box.morph-element.visible, 
+.mempelai-glass.morph-mempelai.visible,
+.inviting-wrapper.morph-element.visible { transition-delay: 0.3s; }
+p.morph-element.visible { transition-delay: 0.4s; }
+button.morph-element.visible { transition-delay: 0.5s; }
+/* ================= TATA LETAK PROPORSIONAL (TIDAK KEKECILAN / MELAR) ================= */
+
+.mempelai-row {
+    display: flex;
+    align-items: center; /* Membuat kotak foto dan teks sejajar di tengah */
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin: 15px auto;
+}
+
+.mempelai-row.reverse {
+    flex-direction: row-reverse;
+}
+
+/* KOTAK FOTO: Dibuat Lebih Besar dan Proporsional */
+.mempelai-photo-glass {
+    flex: 0 0 clamp(100px, 35vw, 130px); /* Responsif terhadap lebar layar */
+    height: clamp(140px, 45vw, 180px);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1.5px solid var(--glass-border);
+    border-radius: 130px 130px 15px 15px; /* Lengkungan Arch tajam */
+    padding: 6px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.mempelai-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 125px 125px 10px 10px;
+}
+
+/* KOTAK NAMA: Dibuat Padat (Compact) & Rata Tengah Vertikal */
+.mempelai-text-glass {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Mengatur isi dari atas ke bawah */
+    justify-content: center; /* KUNCI: Membuat teks selalu di tengah kotak */
+    min-height: clamp(100px, 35vw, 140px);
+    
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.mempelai-row.reverse .mempelai-text-glass {
+    text-align: right;
+}
+
+.mempelai-text-glass h1 {
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+    margin: 0 !important;
+    line-height: 1.1;
+}
+
+.mempelai-text-glass p {
+    font-size: 0.8rem;
+    margin-top: 5px !important;
+    margin-bottom: 0 !important;
+    line-height: 1.2;
+}
+
+/* ================= ANIMASI SLIDE DARI KIRI/KANAN (BERTEMU DI TENGAH) ================= */
+/* Default "out of view" state (untuk scroll ke bawah atau pemuatan awal) */
+.slide-from-left:not(.visible) {
+    transform: translateX(-100px) translateY(40px);
+    opacity: 0;
+    filter: blur(15px);
+}
+
+.slide-from-right:not(.visible) {
+    transform: translateX(100px) translateY(40px);
+    opacity: 0;
+    filter: blur(15px);
+}
+
+.slide-from-bottom:not(.visible) {
+    transform: translateY(30px);
+    opacity: 0;
+    filter: blur(15px);
+}
+
+/* Status "terlihat" untuk elemen slide */
+.slide-from-left.visible,
+.slide-from-right.visible,
+.slide-from-bottom.visible {
+    transform: translateX(0) translateY(0); /* Kembali ke tengah */
+    opacity: 1; /* Sudah diatur oleh .morph-element.visible */
+    filter: blur(0); /* Sudah diatur oleh .morph-element.visible */
+}
+
+/* ================= INFINITE MARQUEE GALLERY ================= */
+.marquee-gallery {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%); /* Memaksa container melebar penuh layar */
+    overflow: hidden;
+    padding: 30px 0;
+    position: relative;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 15px;
+    width: max-content;
+    /* Durasi 25s untuk gerakan yang sangat tenang dan elegan */
+    animation: marquee-infinite 25s linear infinite;
+    will-change: transform;
+}
+
+.marquee-track img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+    pointer-events: none; /* Mencegah drag gambar mengganggu drag container */
+}
+
+@keyframes marquee-infinite {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Bergeser setengah dari total lebar track */
+}
+
+/* ================= ANIMASI AYAT QURAN (REVEAL) ================= */
+.quran-verse-anim {
+    position: relative;
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%);
+    -webkit-mask-size: 250% 100%; mask-size: 250% 100%; -webkit-mask-position: 100% 0; mask-position: 100% 0;
+    transition: -webkit-mask-position 2s cubic-bezier(0.45, 0.05, 0.55, 0.95), mask-position 2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    text-align: justify;
+}
+.quran-verse-anim.visible { -webkit-mask-position: 0% 0; mask-position: 0% 0; }
+
+
+/* ================= OPTIMASI HP ================= */
+@media screen and (max-width: 576px) {
+    .mempelai-row { gap: 10px; }
+    /* ================= KOTAK FOTO: Lebih Transparan ================= */
+.mempelai-photo-glass {
+    flex: 0 0 130px; 
+    height: 180px;
+    
+    /* --- KUNCI TRANSPARANSI --- */
+    /* Menurunkan opacity putih dari 0.45 menjadi 0.15 (sangat bening) */
+    background: rgba(255, 255, 255, 0.15); 
+    
+    /* Menurunkan efek blur agar gambar background di belakangnya lebih berbentuk */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.6); 
+    /* -------------------------- */
+    
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    border-radius: 130px 130px 15px 15px; 
+    padding: 6px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+/* ================= KOTAK NAMA: Lebih Transparan ================= */
+.mempelai-text-glass {
+    flex: 1;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    height: 140px; 
+    
+    /* --- KUNCI TRANSPARANSI --- */
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    /* -------------------------- */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-align: left;
+}
+}
+
+/* ================= LOGO BANK (STYLING) ================= */
+.bank-logo {
+    height: 35px;
+    width: auto;
+    margin-bottom: 15px;
+    object-fit: contain;
+    transition: filter 0.5s ease;
+}
+
+/* Penyesuaian warna logo agar tetap kontras di mode malam */
+body.dark-mode .bank-logo { filter: brightness(0) invert(1); }
