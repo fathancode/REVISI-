@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Undangan Pernikahan - Melia & Riki </title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- PRELOAD & PRECONNECT: Mencegah blank putih dan delay loading awal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="wedding invitation melia & riki.png">
+    <link rel="preload" as="image" href="sampul 2.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="toast-container"></div>
+    <audio id="bg-music" loop>
+        <source src="Lagu Weding.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="auto-scroll-btn" class="floating-btn" onclick="toggleAutoScroll(event)" title="Putar Otomatis">
+        <i class="fas fa-play" id="scroll-icon"></i>
+    </button>
+
+<div id="cover" style="background-image: url('wedding\ invitation\ melia\ &\ riki.png');">
+        <div class="overlay-cover"></div> 
+        <div class="cover-content">
+            <p class="cover-greeting morph-element visible">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
+            <h3 class="morph-element visible subtitle-color">Wedding Invitation</h3>
+            
+            <div class="cover-photo-container morph-element visible">
+                <div class="cover-photo-bg"></div>
+                
+                <div class="cover-photo-glass">
+                <img src="Foto priweding.png" alt="Foto Pengantin" class="cover-img" fetchpriority="high">
+                </div>
+            </div>
+
+            <h1 class="cursive morph-element visible" style="margin-top: 10px;">Melia & Riki</h1>
+            <p class="morph-element visible" style="margin-top: 10px; font-size: 0.9rem;">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+            
+            <h2 id="nama-tamu" class="morph-element visible" style="color: var(--primary-color); margin: 5px 0 15px 0; font-family: 'Poppins', sans-serif; font-size: 1.3rem; font-weight: 600; text-transform: capitalize;">Tamu Undangan</h2>
+            
+            <button class="btn-primary morph-element visible" onclick="openInvitation()"><i class="fas fa-envelope-open-text"></i> Buka Undangan</button>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <div class="hero-stack">
+        <section id="home" class="scroll-section" style="background-image: url('sampul 2.png');">
+            <div class="overlay"></div>
+            <div class="content-wrapper">
+                <img src="Bismillah sah.png" alt="Bismillah" class="bismillah-img brush-right-to-left" fetchpriority="high">
+            <h3 class="morph-element subtitle-color" style="margin-top: clamp(5px, 2vh, 15px);">SAVE THE DATE</h3>
+                <h1 class="cursive brush-date">02 Juni 2026</h1>
+
+            <div class="glass-box morph-element" style="margin-top: clamp(10px, 3vh, 25px); padding: clamp(15px, 3vh, 20px); max-width: 340px; width: 90%;">
+                <p class="quran-verse quran-verse-anim" style="text-align: justify; font-size: clamp(0.75rem, 2.5vw, 0.85rem); line-height: 1.5;">
+                        "Di antara tanda-tanda (kebesaran)-Nya ialah bahwa Dia menciptakan pasangan-pasangan untukmu dari (jenis) dirimu sendiri agar kamu merasa tenteram kepadanya. Dia menjadikan di antaramu rasa cinta dan kasih sayang. 
+                        Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir."
+                    </p>
+                <p class="morph-element" style="margin-top: clamp(5px, 1.5vh, 10px); font-weight: 600; color: var(--primary-color); font-size: 0.8rem;">(QS. Ar-Rum: 21)</p>
+                </div>
+
+            <p class="morph-element" style="max-width: 500px; margin-top: clamp(15px, 4vh, 40px); font-size: clamp(0.75rem, 3vw, 0.9rem);">Dengan kerendahan hati dan penuh rasa syukur, kami sangat menantikan kehadiran serta doa restu Bapak/Ibu/Saudara/i di hari istimewa kami.</p>
+            </div>
+        </section>
+
+        <section id="mempelai" class="scroll-section" style="background-image: url('sampul 3.png');">
+            <div class="overlay"></div>
+            <div class="content-wrapper">
+                <h2 class="morph-element subtitle-color" style="margin-bottom: 40px; font-size: 2rem;">Sang Mempelai</h2>
+                
+                <div class="mempelai-row">
+                    <div class="mempelai-photo-glass morph-element slide-from-left">
+                        <img src="MEMPELAI Perempuan.png" alt="Melia" class="mempelai-photo" loading="lazy" decoding="async">
+                    </div>
+
+                    <div class="mempelai-text-glass morph-element slide-from-right">
+                        <h1 class="cursive brush-name">Melia</h1>
+                        <p>Putri dari Bpk. Djumadi & Ibu Wasih</p>
+                    </div>
+                </div>
+
+                <h2 class="cursive morph-element" style="margin: 20px 0;">&</h2>
+                <div class="mempelai-row reverse">
+            
+            <div class="mempelai-photo-glass morph-element slide-from-right">
+                <img src="MEMPELAI Laki laki.png" alt="Riki Andrian" class="mempelai-photo" loading="lazy" decoding="async">
+            </div>
+
+            <div class="mempelai-text-glass morph-element slide-from-left">
+                <h1 class="cursive brush-name">Riki Andrian</h1>
+                <p>Putra dari Bpk. Suwito Arifai (Alm) & Ibu Sunarti Suyoto</p>
+            </div>
+            
+        </div>
+            </div>
+        </section>
+        </div>
+
+
+        <section id="tanggal" class="scroll-section" style="background-image: url('sampul\ 4.png');">
+            <div class="overlay"></div>
+            <div class="content-wrapper">
+                <h2 class="morph-element" style="margin-bottom: 20px;">Waktu & Tempat</h2>
+                
+                <div class="countdown morph-element" style="margin-bottom: 20px;">
+                    <div class="time-box"><h3 id="hari">00</h3><p>Hari</p></div>
+                    <div class="time-box"><h3 id="jam">00</h3><p>Jam</p></div>
+                    <div class="time-box"><h3 id="menit">00</h3><p>Menit</p></div>
+                    <div class="time-box"><h3 id="detik">00</h3><p>Detik</p></div>
+                </div>
+
+                <div class="event-wrapper">
+    <div class="glass-box event-box morph-element slide-from-left">
+        <h3 style="color: var(--primary-color); font-size: 1rem; margin-bottom: 5px;"><i class="fas fa-ring"></i> Akad Nikah</h3>
+        <p style="font-size: 0.8rem; font-weight: 600;">Selasa, 02 Juni 2026</p>
+        <p style="font-size: 0.75rem; margin-top: 3px;">09.00 WITA - Selesai</p>
+        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Akad+Nikah+Melia+%26+Riki&dates=20260602T010000Z/20260602T030000Z&details=Mohon+doa+restu+atas+pernikahan+kami.&location=Desa+Gandasari+Kec.+Tolangohula+Kab.+Gorontalo" target="_blank" style="text-decoration: none;">
+            <button class="btn-primary" style="margin-top: 10px; width: 100%; border-radius: 8px; padding: 6px 10px; background-color: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); box-shadow: none; font-size: 0.7rem;"><i class="far fa-calendar-plus"></i> Ingatkan Akad</button>
+        </a>
+    </div>
+
+    <div class="glass-box event-box morph-element slide-from-right">
+        <h3 style="color: var(--primary-color); font-size: 1rem; margin-bottom: 5px;"><i class="fas fa-glass-cheers"></i> Resepsi</h3>
+        <p style="font-size: 0.8rem; font-weight: 600;">Selasa, 02 Juni 2026</p>
+        <p style="font-size: 0.75rem; margin-top: 3px;">19.00 WITA - Selesai</p>
+        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Resepsi+Pernikahan+Melia+%26+Riki&dates=20260602T110000Z/20260602T140000Z&details=Mohon+doa+restu+atas+pernikahan+kami.&location=Desa+Gandasari+Kec.+Tolangohula+Kab.+Gorontalo" target="_blank" style="text-decoration: none;">
+            <button class="btn-primary" style="margin-top: 10px; width: 100%; border-radius: 8px; padding: 6px 10px; background-color: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); box-shadow: none; font-size: 0.7rem;"><i class="far fa-calendar-plus"></i> Ingatkan Resepsi</button>
+        </a>
+    </div>
+</div>
+
+<div class="glass-box morph-element" style="margin-top: 10px; padding: 20px 15px; transition-delay: 0.3s;">
+    <p style="font-weight: 600; color: var(--primary-color); margin-bottom: 8px; font-size: 0.95rem;">Lokasi Acara Akad Nikah & Resepsi</p>
+    <p style="margin-bottom: 12px; font-size: 0.85rem;">Kediaman Mempelai Wanita<br>Desa Gandasari Kec. Tolangohula Kab. Gorontalo<br>(Kompleks Toko Fitri Ayu)</p>
+    <a href="https://maps.app.goo.gl/Nwd6QWF6fXN9Rj3C6?g_st=ac" target="_blank" style="text-decoration: none;">
+        <button class="btn-primary" style="margin-top: 0; width: 100%; border-radius: 8px; padding: 10px;"><i class="fas fa-map-marker-alt"></i> Buka di Maps</button>
+    </a>
+</div>
+            </div>
+        </section>
+
+        <section id="ucapan" class="scroll-section" style="background-image: url('sampul 5.png');">
+            <div class="overlay"></div>
+            <div class="content-wrapper scroll-pad">
+                
+                <h2 class="morph-element" style="margin-bottom: 20px; font-size: 1.8rem;">Turut Mengundang</h2>
+                <div class="inviting-wrapper morph-element">
+                    <div class="inviting-col">
+                        <h4>Keluarga Wanita</h4>
+                        <p>Kel. Bpk. Djumadi</p>
+                        <p>Kel. Ibu Wasih</p>
+                    </div>
+                    <div class="inviting-divider"></div>
+                    <div class="inviting-col">
+                        <h4>Keluarga Pria</h4>
+                        <p>Kel. Bpk. Suwito Arifai (Alm)</p>
+                        <p>Kel. Bpk. Hariyanto</p>
+                        <p>Kel. Ibu Sunarti Suyoto</p>
+                    </div>
+                </div>
+
+                <h2 id="buku-tamu" class="morph-element" style="margin-bottom: 10px;">Buku Tamu</h2>
+                <div class="glass-box morph-element" style="margin-bottom: 15px; padding: 20px;">
+                    <form id="rsvp-form">
+                        <input type="text" id="nama" name="nama" placeholder="Nama Lengkap" required>
+                        
+                        <div class="attendance-options">
+                            <label class="attendance-btn">
+                                <input type="radio" name="kehadiran" value="Hadir" required>
+                                <span><i class="fas fa-check-circle"></i> Hadir</span>
+                            </label>
+                            <label class="attendance-btn">
+                                <input type="radio" name="kehadiran" value="Tidak Hadir">
+                                <span><i class="fas fa-times-circle"></i> Berhalangan</span>
+                            </label>
+                        </div>
+
+                        <textarea id="pesan" name="pesan" rows="2" placeholder="Tulis ucapan dan doa..." required></textarea>
+                        <button type="submit" class="btn-primary" style="margin-top: 5px; border-radius: 8px; width: 100%; padding: 10px;"><i class="far fa-paper-plane"></i> Kirim Pesan</button>
+                    </form>
+                </div>
+
+                <div class="wishes-container morph-element" id="wishes-box" style="margin-bottom: 30px;">
+                    <div class="wish-card">
+                        <h4>Fathan M<span class="badge badge-color">Hadir</span></h4>
+                        <p class="wish-text">Happy Wediing Kak Semoga jadi keluarga sakinah mawahdah warohman</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="hadiah" class="scroll-section" style="background-image: url('sampul 6.png');">
+            <div class="overlay"></div>
+            <div class="content-wrapper">
+                <h2 class="morph-element" style="margin-bottom: 20px;">Digital Gift</h2>
+                <div class="gift-card morph-element">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Logo Mandiri" class="bank-logo">
+                    <h3 style="font-family: 'Poppins', sans-serif; letter-spacing: 2px; font-size: 1.1rem;">BANK MANDIRI</h3>
+                    <p id="norek" style="font-size: 1.5rem; letter-spacing: 3px; margin: 10px 0; font-weight: bold; color: var(--primary-color);">1500035303500</p>
+                    <p style="font-size: 0.85rem; margin-bottom: 15px; color: var(--text-color);">A.N: Melia</p>
+                    <button onclick="copyRekening()" class="btn-primary" style="margin: 0; width: 100%; border-radius: 8px; padding: 10px;"><i class="far fa-copy"></i> Salin Rekening</button>
+                </div>
+
+                <div class="morph-element" style="margin-top: 60px; padding-bottom: 20px;">
+                    <p style="font-size: 0.85rem; line-height: 1.6; max-width: 320px; margin: 0 auto; font-style: italic;">
+                        "Suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kami."
+                    </p>
+                    <p style="margin-top: 25px; font-size: 0.8rem; color: var(--primary-color); font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">Kami yang berbahagia,</p>
+                    <h1 class="cursive" style="font-size: 2.2rem; margin-top: 5px;">Melia & Riki</h1>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav" id="bottom-navbar">
+        <a href="#home" class="nav-item active" onclick="scrollToSection('home', event)">
+            <i class="fas fa-home"></i><span>Home</span>
+        </a>
+        <a href="#mempelai" class="nav-item" onclick="scrollToSection('mempelai', event)">
+            <i class="fas fa-user-friends"></i><span>Mempelai</span>
+        </a>
+        <a href="#tanggal" class="nav-item" onclick="scrollToSection('tanggal', event)">
+            <i class="far fa-calendar-check"></i><span>Tanggal</span>
+        </a>
+        <a href="#ucapan" class="nav-item" onclick="scrollToSection('buku-tamu', event)">
+            <i class="far fa-comments"></i><span>Ucapan</span>
+        </a>
+        <a href="#" class="nav-item action-btn" onclick="toggleTheme(event)">
+            <i class="far fa-moon" id="theme-icon"></i><span>Tema</span>
+        </a>
+        <a href="#" class="nav-item action-btn" onclick="toggleMusic(event)">
+            <i class="fas fa-music" id="music-icon"></i><span>Musik</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
